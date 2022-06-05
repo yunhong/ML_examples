@@ -122,6 +122,9 @@ validation_generator = validation_datagen.flow_from_directory(VALIDATION_DIR,
 # Found 22498 images belonging to 2 classes.
 # Found 2500 images belonging to 2 classes.
 
+history = model.fit(train_generator, epochs=15, steps_per_epoch=90,
+                    validation_data=validation_generator, validation_steps=6)
+
 %matplotlib inline
 
 import matplotlib.image  as mpimg
