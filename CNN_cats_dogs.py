@@ -159,14 +159,10 @@ plt.figure()
 
 # Desired output. Charts with training and validation metrics. No crash :)
 
-!wget --no-check-certificate \
-    "https://download.microsoft.com/download/3/E/1/3E1C3F21-ECDB-4869-8368-6DEBA77B919F/kagglecatsanddogs_3367a.zip" \
-    -O "/tmp/cats-and-dogs.zip"
+# Epoch 15/15
+# 90/90 [==============================] - 204s 2s/step - 
+# loss: 0.1101 - acc: 0.9683 - val_loss: 0.0192 - val_acc: 0.9967
 
-local_zip = '/tmp/cats-and-dogs.zip'
-zip_ref   = zipfile.ZipFile(local_zip, 'r')
-zip_ref.extractall('/tmp')
-zip_ref.close()
 
 # Here's a codeblock just for fun. You should be able to upload an image here 
 # and have it classified without crashing
@@ -192,5 +188,3 @@ for fn in uploaded.keys():
   else:
     print(fn + " is a cat")
     
-
-  
