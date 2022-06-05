@@ -102,7 +102,7 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
-model.compile(optimizer=RMSprop(lr=0.001), loss='binary_crossentropy', metrics=['acc'])
+model.compile(optimizer=RMSprop(learning_rate=0.001), loss='binary_crossentropy', metrics=['acc'])
 
 TRAINING_DIR = "/tmp/cats-v-dogs/training/"
 train_datagen = ImageDataGenerator(rescale=1.0/255.)
