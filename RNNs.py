@@ -49,3 +49,6 @@ def add_lags(series, times):
     df = pd.concat(cols, axis=1)
     df.columns = pd.MultiIndex.from_tuples(column_index)
     return df
+
+X = add_lags(temps, times=range(-30+1,1)).iloc[30:-5]
+y = add_lags(temps, times=[5]).iloc[30:-5]
