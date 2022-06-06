@@ -33,6 +33,19 @@ plt.show()
 temps.plot(figsize=(10,5))
 plt.show()
 
+temps.loc["1984-12-29":"1985-01-02"]
+
 temps = temps.asfreq("1D", method="ffill")
 temps.loc["1984-12-29":"1985-01-02"]
 
+def add_lags(series, times):
+    cols = []
+    column_index = []
+    for time in times:
+        cols.append(series.shift(-time))
+        lag_fmt = "t+{time}" if time > 0 else "t{time}" if time < 0 else "t"
+        column_index += [(lag_fmt.format(time=time), col_name)
+                        for col_name in series.columns]
+    df = pd.concat(cols, axis=1)
+    df.columns = pd.MultiIndex.from_tuples(column_index)
+    return df
