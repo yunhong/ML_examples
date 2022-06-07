@@ -28,10 +28,7 @@ temps.info()
 temps.head()
 
 temps.plot(figsize=(10,5))
-plt.show()
-
-temps.plot(figsize=(10,5))
-plt.show()
+#plt.show()
 
 temps.loc["1984-12-29":"1985-01-02"]
 
