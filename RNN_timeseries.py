@@ -107,6 +107,8 @@ plot_predictions(("Target", y_valid),
                  ("Linear", y_pred_linear),
                  end=365)
 
+input_shape = X_train_3D.shape[1:]
+input_shape
 
 model1 = keras.models.Sequential()
 model1.add(keras.layers.SimpleRNN(100, return_sequences=True, input_shape=input_shape))
