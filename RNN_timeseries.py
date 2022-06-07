@@ -53,4 +53,18 @@ y = add_lags(temps, times=[5]).iloc[30:-5]
 X.head()
 y.head()
 
+train_slice = slice(None, "1986-12-25")
+valid_slice = slice("1987-01-01", "1988-12-25")
+test_slice = slice("1989-01-01", None)
 
+X_train, y_train = X.loc[train_slice], y.loc[train_slice]
+X_valid, y_valid = X.loc[valid_slice], y.loc[valid_slice]
+X_test, y_test = X.loc[test_slice], y.loc[test_slice]
+
+def multilevel_df_to_ndarray(df):
+    shape = [-1] + [len(level) for level in df.columns.remove_unused_levels().levels]
+    return df.values.reshape(shape)
+
+X_train_3D = multilevel_df_to_ndarray(X_train)
+X_test_3D = multilevel_df_to_ndarray(X_test)
+X_valid_3D = multilevel_df_to_ndarray(X_valid)
