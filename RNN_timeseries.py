@@ -52,3 +52,8 @@ def add_lags(series, times):
 
 X = add_lags(temps, times=range(-30+1,1)).iloc[30:-5]
 y = add_lags(temps, times=[5]).iloc[30:-5]
+
+X.head()
+y.head()
+
+
