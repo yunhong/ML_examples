@@ -107,6 +107,7 @@ plot_predictions(("Target", y_valid),
                  ("Linear", y_pred_linear),
                  end=365)
 
+
 input_shape = X_train_3D.shape[1:]
 input_shape
 
