@@ -134,6 +134,36 @@ def plot_history(history, loss="loss"):
     plt.legend()
     plt.show()
     
+    
 plot_history(history1)
+
+def huber_loss(y_true, y_pred, max_grad=1.):
+    err = tf.abs(y_true - y_pred, name='abs')
+    mg = tf.constant(max_grad, name='max_grad')
+    lin = mg * (err - 0.5 * mg)
+    quad = 0.5 * err * err
+    return tf.where(err < mg, quad, lin)
+
+model1.evaluate(X_valid_3D, y_valid)
+
+model1 = keras.models.Sequential()
+model1.add(keras.layers.SimpleRNN(100, return_sequences=True, input_shape=input_shape))
+model1.add(keras.layers.SimpleRNN(100))
+model1.add(keras.layers.Dense(1))
+model1.compile(loss=huber_loss, optimizer=keras.optimizers.SGD(lr=0.005), metrics=["mae"])
+
+history1 = model1.fit(X_train_3D, y_train, epochs=200, batch_size=200,
+                      validation_data=(X_valid_3D, y_valid))
+
+model1.evaluate(X_valid_3D, y_valid)
+
+y_pred_rnn1 = model1.predict(X_valid_3D)
+
+plot_predictions(("Target", y_valid),
+                 ("Linear", y_pred_linear),
+                 ("RNN", y_pred_rnn1),
+                 end=365)
+
+
 
 
