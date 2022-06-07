@@ -68,3 +68,44 @@ def multilevel_df_to_ndarray(df):
 X_train_3D = multilevel_df_to_ndarray(X_train)
 X_test_3D = multilevel_df_to_ndarray(X_test)
 X_valid_3D = multilevel_df_to_ndarray(X_valid)
+
+from sklearn.metrics import mean_absolute_error
+
+def naive(X):
+    return X.iloc[:, -1]
+
+y_pred_naive = naive(X_valid)
+mean_absolute_error(y_valid, y_pred_naive)
+
+def ema(X, span):
+    return X.T.ewm(span=span).mean().T.iloc[:, -1]
+
+y_pred_ema = ema(X_valid, span=10)
+mean_absolute_error(y_valid, y_pred_ema)
+
+from sklearn.linear_model import LinearRegression
+
+lin_reg = LinearRegression()
+lin_reg.fit(X_train, y_train)
+
+y_pred_linear = lin_reg.predict(X_valid)
+mean_absolute_error(y_valid, y_pred_linear)
+
+def plot_predictions(*named_predictions, start=None, end=None, **kwargs):
+    day_range = slice(start, end)
+    plt.figure(figsize=(10,5))
+    for name, y_pred in named_predictions:
+        if hasattr(y_pred, "values"):
+            y_pred = y_pred.values
+        plt.plot(y_pred[day_range], label=name, **kwargs)
+    plt.legend()
+    plt.show()
+ 
+plot_predictions(("Target", y_valid),
+                 ("Naive", y_pred_naive),
+                 ("EMA", y_pred_ema),
+                 ("Linear", y_pred_linear),
+                 end=365)
+
+
+
