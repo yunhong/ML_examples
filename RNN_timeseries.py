@@ -108,4 +108,29 @@ plot_predictions(("Target", y_valid),
                  end=365)
 
 
+model1 = keras.models.Sequential()
+model1.add(keras.layers.SimpleRNN(100, return_sequences=True, input_shape=input_shape))
+model1.add(keras.layers.SimpleRNN(50))
+model1.add(keras.layers.Dense(1))
+model1.compile(loss="mse", optimizer=keras.optimizers.SGD(lr=0.005), metrics=["mae"])
+
+history1 = model1.fit(X_train_3D, y_train, epochs=200, batch_size=200,
+                      validation_data=(X_valid_3D, y_valid))
+
+def plot_history(history, loss="loss"):
+    train_losses = history.history[loss]
+    valid_losses = history.history["val_" + loss]
+    n_epochs = len(history.epoch)
+    minloss = np.min(valid_losses)
+    
+    plt.plot(train_losses, color="b", label="Train")
+    plt.plot(valid_losses, color="r", label="Validation")
+    plt.plot([0, n_epochs], [minloss, minloss], "k--",
+             label="Min val: {:.2f}".format(minloss))
+    plt.axis([0, n_epochs, 0, 20])
+    plt.legend()
+    plt.show()
+    
+plot_history(history1)
+
 
